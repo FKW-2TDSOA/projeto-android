@@ -28,11 +28,11 @@ import br.com.fiap.navegacao.R
 
 @Composable
 fun CadastroScreen(navController: NavController) {
-
     val nome = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }
     val senha = remember { mutableStateOf("") }
     val isLoading = remember { mutableStateOf(false) }
+    val errorState = remember { mutableStateOf<String?>(null) }
 
     Box(
         modifier = Modifier
@@ -92,11 +92,15 @@ fun CadastroScreen(navController: NavController) {
 
                     OutlinedTextField(
                         value = nome.value,
-                        onValueChange = { nome.value = it },
+                        onValueChange = {
+                            nome.value = it
+                            errorState.value = ""
+                        },
                         modifier = Modifier.fillMaxWidth(),
                         placeholder = { Text(text = "Seu nome") },
                         label = { Text("Nome") },
                         shape = RoundedCornerShape(12.dp),
+                        isError = errorState.value?.isNotEmpty() == true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -124,6 +128,16 @@ fun CadastroScreen(navController: NavController) {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                     )
 
+                    if (errorState.value?.isNotEmpty() == true) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = errorState.value ?: "",
+                            color = Color.Red,
+                            fontSize = 14.sp,
+                            modifier = Modifier.align(Alignment.Start)
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Button(
@@ -143,13 +157,16 @@ fun CadastroScreen(navController: NavController) {
                                     if (response.isSuccessful) {
                                         navController.navigate("menu")
                                     } else {
-                                        Log.e("Cadastro", "Erro ao cadastrar: ${response.message()}")
+                                        val errorMessage = response.errorBody()?.string() ?: "Erro desconhecido"
+                                        Log.e("Cadastro", "Erro ao cadastrar: $errorMessage")
+                                        errorState.value = errorMessage
                                     }
                                 }
 
                                 override fun onFailure(call: Call<Cliente?>, t: Throwable) {
                                     isLoading.value = false
                                     Log.e("Cadastro", "Falha na requisição: ${t.message}")
+                                    errorState.value = "Erro ao conectar ao servidor."
                                 }
                             })
                         },
