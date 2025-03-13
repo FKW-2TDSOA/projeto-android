@@ -32,7 +32,7 @@ fun CadastroScreen(navController: NavController) {
     val email = remember { mutableStateOf("") }
     val senha = remember { mutableStateOf("") }
     val isLoading = remember { mutableStateOf(false) }
-    val errorState = remember { mutableStateOf<String?>(null) }
+    val errorState = remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -128,7 +128,7 @@ fun CadastroScreen(navController: NavController) {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                     )
 
-                    if (errorState.value?.isNotEmpty() == true) {
+                    if (errorState.value.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = errorState.value ?: "",
