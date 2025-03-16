@@ -1,43 +1,79 @@
 package br.com.fiap.projeto.screens
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
+import br.com.fiap.navegacao.R
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun Curso2Screen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF3F4F6))
+            .background(Color(0xFF121212)) // Fundo escuro
             .padding(16.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()), // Adiciona rolagem
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Ícone de Voltar
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                IconButton(
+                    onClick = { navController.navigate("menu") } // Voltar para o menu
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_back), // Ícone de voltar
+                        contentDescription = "Voltar",
+                        tint = Color.White,
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
+            }
+
+            Image(
+                painter = painterResource(id = R.drawable.logo_empresa), // Logo
+                contentDescription = "Logo da Empresa",
+                modifier = Modifier
+                    .size(180.dp)
+                    .padding(bottom = 20.dp)
+            )
+
             Text(
                 text = "CURSO 2: Investimentos e Planejamento Financeiro",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Blue,
+                color = Color(0xFF00BFA6),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Módulo 1
+            // Adicionando os módulos com vídeos
             Curso2Module(
                 title = "Módulo 1: Tipos de Investimentos",
                 content = """
@@ -47,7 +83,6 @@ fun Curso2Screen(navController: NavController) {
                 """.trimIndent()
             )
 
-            // Módulo 2
             Curso2Module(
                 title = "Módulo 2: Planejamento Financeiro de Longo Prazo",
                 content = """
@@ -56,7 +91,6 @@ fun Curso2Screen(navController: NavController) {
                 """.trimIndent()
             )
 
-            // Módulo 3
             Curso2Module(
                 title = "Módulo 3: Aposentadoria e Previdência",
                 content = """
@@ -66,16 +100,7 @@ fun Curso2Screen(navController: NavController) {
                 """.trimIndent()
             )
 
-            // Botão de Voltar
-            Button(
-                onClick = {
-                    navController.navigate("menu")
-                },
-                colors = ButtonDefaults.buttonColors(Color.White),
-                modifier = Modifier.padding(top = 16.dp)
-            ) {
-                Text(text = "Voltar", fontSize = 20.sp, color = Color.Blue)
-            }
+            Spacer(modifier = Modifier.height(24.dp)) // Espaço extra no final para melhorar a rolagem
         }
     }
 }
@@ -86,8 +111,8 @@ fun Curso2Module(title: String, content: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        elevation = CardDefaults.elevatedCardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.elevatedCardElevation(4.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -97,7 +122,7 @@ fun Curso2Module(title: String, content: String) {
                 text = title,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Blue
+                color = Color(0xFF00BFA6)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -105,6 +130,9 @@ fun Curso2Module(title: String, content: String) {
                 fontSize = 16.sp,
                 color = Color.Black
             )
+            Spacer(modifier = Modifier.height(16.dp))
+
         }
     }
 }
+

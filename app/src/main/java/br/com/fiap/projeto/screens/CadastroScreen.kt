@@ -4,14 +4,12 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +23,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import br.com.fiap.navegacao.R
+import br.com.fiap.projeto.screens.CustomButton
+
 
 @Composable
 fun CadastroScreen(navController: NavController) {
@@ -37,38 +37,47 @@ fun CadastroScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF3F4F6))
+            .background(Color(0xFF121212))
             .padding(16.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF6200EE))
-                    .padding(vertical = 16.dp)
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.Start
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.corinthians),
-                    contentDescription = "Imagem de IMC",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    "CADASTRO",
-                    color = Color.White,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                IconButton(
+                    onClick = { navController.navigate("menuLogin") } // Voltar para a tela principal
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_back), // Adicione o ícone na pasta drawable
+                        contentDescription = "Voltar",
+                        tint = Color.White,
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
             }
 
-            // Main
+            Image(
+                painter = painterResource(id = R.drawable.logo_empresa), // Adicione a imagem na pasta res/drawable
+                contentDescription = "Logo da Empresa",
+                modifier = Modifier
+                    .size(200.dp)
+                    .padding(bottom = 20.dp)
+            )
+
+//            Text(
+//                "CADASTRO",
+//                color = Color.White,
+//                fontSize = 22.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -82,10 +91,10 @@ fun CadastroScreen(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Seus dados",
+                        text = "CADASTRO",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF6200EE)
+                        color = Color(0xFF00BFA6)
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -100,7 +109,7 @@ fun CadastroScreen(navController: NavController) {
                         placeholder = { Text(text = "Seu nome") },
                         label = { Text("Nome") },
                         shape = RoundedCornerShape(12.dp),
-                        isError = errorState.value?.isNotEmpty() == true,
+                        isError = errorState.value.isNotEmpty(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -131,7 +140,7 @@ fun CadastroScreen(navController: NavController) {
                     if (errorState.value.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = errorState.value ?: "",
+                            text = errorState.value,
                             color = Color.Red,
                             fontSize = 14.sp,
                             modifier = Modifier.align(Alignment.Start)
@@ -140,7 +149,8 @@ fun CadastroScreen(navController: NavController) {
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Button(
+                    CustomButton(
+                        text = if (isLoading.value) "Carregando..." else "Cadastrar",
                         onClick = {
                             val cliente = Cliente(
                                 id = "",
@@ -170,20 +180,11 @@ fun CadastroScreen(navController: NavController) {
                                 }
                             })
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                        shape = RoundedCornerShape(12.dp),
                         enabled = !isLoading.value
-                    ) {
-                        if (isLoading.value) {
-                            Text(text = "Carregando...", fontSize = 18.sp, color = Color.White)
-                        } else {
-                            Text(text = "Cadastrar", fontSize = 18.sp, color = Color.White)
-                        }
-                    }
+                    )
                 }
             }
         }
     }
 }
+
