@@ -3,7 +3,6 @@ package br.com.fiap.projeto.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +20,7 @@ fun MenuScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121212)) // Mantendo o fundo escuro para consistência
+            .background(Color(0xFF121212))
             .padding(16.dp)
     ) {
         Column(
@@ -43,7 +42,7 @@ fun MenuScreen(navController: NavController) {
             }
 
             Image(
-                painter = painterResource(id = R.drawable.logo_empresa), // Logo da empresa
+                painter = painterResource(id = R.drawable.logo_empresa),
                 contentDescription = "Logo da Empresa",
                 modifier = Modifier
                     .size(180.dp)
@@ -54,7 +53,7 @@ fun MenuScreen(navController: NavController) {
                 text = "MENU",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF00BFA6), // Verde padrão
+                color = Color(0xFF00BFA6),
                 modifier = Modifier.padding(bottom = 32.dp)
             )
 

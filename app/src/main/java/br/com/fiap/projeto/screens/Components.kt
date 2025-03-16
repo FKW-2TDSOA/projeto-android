@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 fun CustomButton(text: String, onClick: () -> Unit, enabled: Boolean = true) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00BFA6)), // Verde financeiro
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00BFA6)),
         modifier = Modifier
             .fillMaxWidth() // O botão agora ocupa toda a largura disponível
             .height(55.dp), // Aumentando a altura para acomodar texto maior

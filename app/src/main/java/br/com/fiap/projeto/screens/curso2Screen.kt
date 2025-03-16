@@ -1,6 +1,5 @@
 package br.com.fiap.projeto.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,14 +14,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import br.com.fiap.navegacao.R
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import androidx.compose.ui.platform.LocalContext
+
 
 @Composable
 fun Curso2Screen(navController: NavController) {
@@ -73,7 +67,6 @@ fun Curso2Screen(navController: NavController) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Adicionando os módulos com vídeos
             Curso2Module(
                 title = "Módulo 1: Tipos de Investimentos",
                 content = """

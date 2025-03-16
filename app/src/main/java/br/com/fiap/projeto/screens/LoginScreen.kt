@@ -1,6 +1,5 @@
 package br.com.fiap.navegandoentretelas.sreens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -35,7 +34,7 @@ fun LoginScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121212)) // Mesma cor da tela de cadastro
+            .background(Color(0xFF121212))
             .padding(16.dp)
     ) {
         Column(
@@ -53,7 +52,7 @@ fun LoginScreen(navController: NavController) {
                     onClick = { navController.navigate("menuLogin") } // Voltar para a tela principal
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_back), // Adicione o ícone na pasta drawable
+                        painter = painterResource(id = R.drawable.ic_arrow_back),
                         contentDescription = "Voltar",
                         tint = Color.White,
                         modifier = Modifier.size(50.dp)
@@ -62,7 +61,7 @@ fun LoginScreen(navController: NavController) {
             }
 
             Image(
-                painter = painterResource(id = R.drawable.logo_empresa), // Adicione a imagem na pasta res/drawable
+                painter = painterResource(id = R.drawable.logo_empresa),
                 contentDescription = "Logo da Empresa",
                 modifier = Modifier
                     .size(200.dp)
@@ -85,7 +84,7 @@ fun LoginScreen(navController: NavController) {
                         text = "LOGIN",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF00BFA6) // Mesmo verde da tela de cadastro
+                        color = Color(0xFF00BFA6)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))

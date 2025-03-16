@@ -66,7 +66,6 @@ fun Curso1Screen(navController: NavController) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // Adicionando os módulos com vídeos
             Curso1Module(
                 title = "Módulo 1: Introdução à Educação Financeira",
                 content = """
