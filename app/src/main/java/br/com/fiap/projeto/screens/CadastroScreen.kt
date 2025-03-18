@@ -1,4 +1,4 @@
-package br.com.fiap.navegandoentretelas.sreens
+package br.com.fiap.navegandoentretelas.screens
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -25,7 +25,6 @@ import retrofit2.Response
 import br.com.fiap.navegacao.R
 import br.com.fiap.projeto.screens.CustomButton
 
-
 @Composable
 fun CadastroScreen(navController: NavController) {
     val nome = remember { mutableStateOf("") }
@@ -33,6 +32,7 @@ fun CadastroScreen(navController: NavController) {
     val senha = remember { mutableStateOf("") }
     val isLoading = remember { mutableStateOf(false) }
     val errorState = remember { mutableStateOf("") }
+    val showWelcomePopup = remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -44,7 +44,6 @@ fun CadastroScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -52,7 +51,7 @@ fun CadastroScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.Start
             ) {
                 IconButton(
-                    onClick = { navController.navigate("menuLogin") } // Voltar para a tela principal
+                    onClick = { navController.navigate("menuLogin") }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_arrow_back),
@@ -70,13 +69,6 @@ fun CadastroScreen(navController: NavController) {
                     .size(200.dp)
                     .padding(bottom = 20.dp)
             )
-
-//            Text(
-//                "CADASTRO",
-//                color = Color.White,
-//                fontSize = 22.sp,
-//                fontWeight = FontWeight.Bold
-//            )
 
             Card(
                 modifier = Modifier
@@ -101,15 +93,11 @@ fun CadastroScreen(navController: NavController) {
 
                     OutlinedTextField(
                         value = nome.value,
-                        onValueChange = {
-                            nome.value = it
-                            errorState.value = ""
-                        },
+                        onValueChange = { nome.value = it },
                         modifier = Modifier.fillMaxWidth(),
                         placeholder = { Text(text = "Seu nome") },
                         label = { Text("Nome") },
                         shape = RoundedCornerShape(12.dp),
-                        isError = errorState.value.isNotEmpty(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
@@ -145,6 +133,10 @@ fun CadastroScreen(navController: NavController) {
                             fontSize = 14.sp,
                             modifier = Modifier.align(Alignment.Start)
                         )
+                        LaunchedEffect(errorState.value) {
+                            kotlinx.coroutines.delay(3000)
+                            errorState.value = ""
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -165,7 +157,7 @@ fun CadastroScreen(navController: NavController) {
                                 override fun onResponse(call: Call<Cliente?>, response: Response<Cliente?>) {
                                     isLoading.value = false
                                     if (response.isSuccessful) {
-                                        navController.navigate("menu")
+                                        showWelcomePopup.value = true
                                     } else {
                                         val errorMessage = response.errorBody()?.string() ?: "Erro desconhecido"
                                         Log.e("Cadastro", "Erro ao cadastrar: $errorMessage")
@@ -186,5 +178,41 @@ fun CadastroScreen(navController: NavController) {
             }
         }
     }
-}
 
+    if (showWelcomePopup.value) {
+        AlertDialog(
+            onDismissRequest = {},
+            confirmButton = {},
+            modifier = Modifier.padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+            containerColor = Color.Black,
+            title = {
+                Text(
+                    text = "Bem-vindo!",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF00BFA6)
+                )
+            },
+            text = {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_empresa),
+                        contentDescription = "Logo",
+                        modifier = Modifier.size(100.dp)
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    CircularProgressIndicator(color = Color(0xFF00BFA6))
+                }
+            }
+        )
+
+        LaunchedEffect(Unit) {
+            kotlinx.coroutines.delay(2000)
+            showWelcomePopup.value = false
+            navController.navigate("menu") {
+                popUpTo("login") { inclusive = true }
+            }
+        }
+    }
+}

@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.com.fiap.navegandoentretelas.sreens.CadastroScreen
+import br.com.fiap.navegandoentretelas.screens.CadastroScreen
 import br.com.fiap.projeto.screens.MenuScreen
 import br.com.fiap.projeto.ui.theme.NavegaçãoTheme
 import br.com.fiap.navegandoentretelas.sreens.LoginScreen
